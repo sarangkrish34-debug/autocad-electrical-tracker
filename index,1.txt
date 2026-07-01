@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       STEP 1 ▸ Replace PASTE_YOUR_CODE_HERE with your code from
+       Google Search Console → HTML tag verification method
+       ══════════════════════════════════════════════════════════════ -->
+  <meta name="google-site-verification" content=<meta name="google-site-verification" content="NEQEKxCx48EUCBvmrMuBRmkwAeBZv_3kUqf-49Bpzxg"/>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>AutoCAD Electrical — Learning Tracker</title>
+  <meta name="description" content="Free interactive AutoCAD Electrical learning tracker for electrical engineers. 5 phases, 22 tasks — from core AutoCAD to full schematic, panel and report workflow." />
+  <meta name="keywords" content="AutoCAD Electrical, learn AutoCAD, electrical engineering, CAD training, schematic diagram, panel layout, BOM, wire numbering, ladder logic" />
+  <meta property="og:title" content="AutoCAD Electrical Learning Tracker" />
+  <meta property="og:description" content="Track your AutoCAD Electrical journey — built for electrical engineers." />
+  <meta property="og:type" content="website" />
+
+  <!-- STEP 2 ▸ Replace YOUR-USERNAME and YOUR-REPO-NAME below -->
+  <link rel="canonical" href="https://YOUR-USERNAME.github.io/YOUR-REPO-NAME/" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<style>
+:root {
+  --void:    #07070E;
+  --surf:    #0D0D1A;
+  --surf2:   #111120;
+  --border:  #1C1C38;
+  --cyan:    #00CCFF;
+  --cyan-lo: rgba(0,204,255,0.08);
+  --purple:  #7B5EFC;
+  --text:    #EAEAFF;
+  --muted:   #50507A;
+  --done-bg: rgba(0,204,255,0.06);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--void);
+  color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
+  min-height: 100vh;
+}
+
+/* ── HEADER ─────────────────────────────────────── */
+header {
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  z-index: 10;
+}
+.logo {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 2px;
+}
+.logo em { color: var(--cyan); font-style: normal; }
+.badge {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  padding: 3px 8px;
+  letter-spacing: 1px;
+}
+
+/* ── HERO / 3D ───────────────────────────────────── */
+.hero {
+  position: relative;
+  height: 360px;
+  background: radial-gradient(ellipse 80% 60% at 50% 50%, #0D1E30 0%, var(--void) 75%);
+  overflow: hidden;
+  cursor: grab;
+}
+.hero:active { cursor: grabbing; }
+#c3d { display: block; width: 100%; height: 100%; }
+
+.hero-hint {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  color: var(--muted);
+  letter-spacing: 2px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* ── MAIN ────────────────────────────────────────── */
+main {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 36px 20px 20px;
+}
+
+.eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--muted);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+/* ── PROGRESS CARD ───────────────────────────────── */
+.prog-card {
+  background: var(--surf);
+  border: 1px solid var(--border);
+  padding: 20px 22px 18px;
+  margin-bottom: 32px;
+}
+.prog-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.prog-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+}
+.prog-count {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--cyan);
+}
+.prog-track {
+  height: 2px;
+  background: var(--border);
+  position: relative;
+  overflow: visible;
+}
+.prog-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--cyan) 0%, var(--purple) 100%);
+  transition: width 0.5s cubic-bezier(.4,0,.2,1);
+  position: relative;
+}
+.prog-fill::after {
+  content: '';
+  position: absolute;
+  right: -3px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 10px var(--cyan), 0 0 4px var(--cyan);
+}
+.prog-pct {
+  margin-top: 8px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--muted);
+}
+
+/* ── PHASES ──────────────────────────────────────── */
+.phase {
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--border);
+  background: var(--surf);
+  margin-bottom: 2px;
+  transition: border-left-color 0.3s ease;
+}
+.phase.lit { border-left-color: var(--cyan); }
+
+.ph-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  cursor: pointer;
+  user-select: none;
+}
+.ph-head:hover { background: var(--cyan-lo); }
+.ph-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--cyan);
+  min-width: 22px;
+}
+.ph-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  flex: 1;
+}
+.ph-weeks {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  color: var(--muted);
+}
+.ph-arrow {
+  font-size: 0.55rem;
+  color: var(--muted);
+  margin-left: 6px;
+  transition: transform 0.2s;
+}
+.phase.open .ph-arrow { transform: rotate(180deg); }
+
+.ph-bar {
+  height: 1px;
+  background: var(--border);
+  margin: 0 18px;
+}
+.ph-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--cyan), var(--purple));
+  transition: width 0.4s ease;
+}
+
+.tasks {
+  display: none;
+  padding: 6px 0 10px;
+}
+.phase.open .tasks { display: block; }
+
+.task {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 18px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
+}
+.task:hover { background: var(--cyan-lo); }
+
+.chk {
+  width: 13px; height: 13px;
+  border: 1.5px solid var(--muted);
+  border-radius: 2px;
+  flex-shrink: 0;
+  position: relative;
+  transition: all 0.18s;
+}
+.task.done .chk {
+  background: var(--cyan);
+  border-color: var(--cyan);
+  box-shadow: 0 0 6px rgba(0,204,255,0.5);
+}
+.task.done .chk::after {
+  content: '';
+  position: absolute;
+  left: 3px; top: 0;
+  width: 3px; height: 7px;
+  border-right: 1.5px solid #07070E;
+  border-bottom: 1.5px solid #07070E;
+  transform: rotate(45deg);
+}
+.task-label {
+  font-size: 0.82rem;
+  font-weight: 300;
+  line-height: 1.45;
+  color: var(--text);
+}
+.task.done .task-label {
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--border);
+}
+
+/* ── FOOTER ──────────────────────────────────────── */
+footer {
+  max-width: 680px;
+  margin: 20px auto 0;
+  padding: 16px 20px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.foot-txt {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  color: var(--muted);
+}
+.reset-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 1px;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.reset-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">◆ <em>ACADE</em> · LEARNING TRACKER</div>
+  <div class="badge">EE-LEARN-01</div>
+</header>
+
+<div class="hero">
+  <canvas id="c3d"></canvas>
+  <div class="hero-hint">DRAG TO ROTATE · SCROLL TO ZOOM</div>
+</div>
+
+<main>
+  <p class="eyebrow">Your Learning Path</p>
+
+  <div class="prog-card">
+    <div class="prog-top">
+      <div class="prog-title">Progress</div>
+      <div class="prog-count" id="prog-count">0 / 22</div>
+    </div>
+    <div class="prog-track">
+      <div class="prog-fill" id="prog-fill"></div>
+    </div>
+    <div class="prog-pct" id="prog-pct">0% complete</div>
+  </div>
+
+  <div id="phases"></div>
+</main>
+
+<footer>
+  <div class="foot-txt">AutoCAD Electrical Tracker · <span id="fdate"></span></div>
+  <button class="reset-btn" id="reset-btn">RESET ALL</button>
+</footer>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+const PHASES = [
+  { title: 'Core AutoCAD Interface',       weeks: 'WK 1–2',    tasks: ['Navigate model space vs layout space','Draw with line, polyline, circle, arc','Set up and manage layers','Create and insert basic blocks','Apply dimensions and annotations','Set up plot / print and page setup'] },
+  { title: 'Electrical Drafting Skills',   weeks: 'WK 3–4',    tasks: ['Build blocks with attributes (tag data)','Use XREFs for multi-sheet projects','Set drawing scale correctly for plotting','Build a standard title block template'] },
+  { title: 'AutoCAD Electrical Toolset',   weeks: 'WK 5–8',    tasks: ['Insert schematic symbols from library','Use wire auto-numbering','Build a panel layout drawing','Use Circuit Builder for ladder logic','Generate a Bill of Materials (BOM)','Generate a wire / terminal list report'] },
+  { title: 'Real Project Practice',        weeks: 'WK 9–12',   tasks: ['Redraw an existing panel schematic from a photo','Build a one-line diagram for a small facility','Run full schematic → panel → report cycle'] },
+  { title: 'Speed & Workflow',             weeks: 'Ongoing',   tasks: ['Learn core keyboard shortcuts','Work primarily via command line input','Build a custom tool palette of common symbols'] }
+];
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+const KEY = 'acade-v3';
+let checked = {};
+function save() { try { localStorage.setItem(KEY, JSON.stringify(checked)); } catch(e){} }
+function load() { try { const s = localStorage.getItem(KEY); if(s) checked = JSON.parse(s); } catch(e){} }
+const tid = (pi,ti) => pi+':'+ti;
+
+// ── PROGRESS ──────────────────────────────────────────────────────────────────
+function calcProgress() {
+  let total=0, done=0;
+  PHASES.forEach((p,pi)=>p.tasks.forEach((_,ti)=>{ total++; if(checked[tid(pi,ti)]) done++; }));
+  return { total, done };
+}
+function updateProgress() {
+  const { total, done } = calcProgress();
+  const pct = total ? Math.round((done/total)*100) : 0;
+  document.getElementById('prog-fill').style.width = pct+'%';
+  document.getElementById('prog-count').textContent = done+' / '+total;
+  document.getElementById('prog-pct').textContent = pct+'% complete';
+}
+
+// ── BUILD UI ──────────────────────────────────────────────────────────────────
+function buildUI() {
+  const root = document.getElementById('phases');
+  root.innerHTML = '';
+
+  PHASES.forEach((phase, pi) => {
+    const done = phase.tasks.filter((_,ti)=>checked[tid(pi,ti)]).length;
+    const pct  = phase.tasks.length ? (done/phase.tasks.length)*100 : 0;
+
+    const el = document.createElement('div');
+    el.className = 'phase open' + (done > 0 ? ' lit' : '');
+
+    el.innerHTML =
+      '<div class="ph-head">'+
+        '<span class="ph-num">0'+(pi+1)+'</span>'+
+        '<span class="ph-title">'+phase.title+'</span>'+
+        '<span class="ph-weeks">'+phase.weeks+'</span>'+
+        '<span class="ph-arrow">▲</span>'+
+      '</div>'+
+      '<div class="ph-bar"><div class="ph-bar-fill" style="width:'+pct+'%"></div></div>'+
+      '<div class="tasks"></div>';
+
+    const tasksEl = el.querySelector('.tasks');
+    phase.tasks.forEach((label, ti) => {
+      const id   = tid(pi, ti);
+      const done = !!checked[id];
+      const row  = document.createElement('div');
+      row.className = 'task' + (done ? ' done' : '');
+      row.innerHTML  = '<div class="chk"></div><div class="task-label">'+label+'</div>';
+      row.addEventListener('click', () => {
+        checked[id] = !checked[id];
+        save(); buildUI(); updateProgress();
+      });
+      tasksEl.appendChild(row);
+    });
+
+    el.querySelector('.ph-head').addEventListener('click', e => {
+      if(e.target.closest('.task')) return;
+      el.classList.toggle('open');
+      el.querySelector('.ph-arrow').textContent = el.classList.contains('open') ? '▲' : '▼';
+    });
+
+    root.appendChild(el);
+  });
+
+  updateProgress();
+}
+
+// ── THREE.JS CIRCUIT BOARD ────────────────────────────────────────────────────
+function initBoard() {
+  const canvas = document.getElementById('c3d');
+  const hero   = canvas.parentElement;
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x000000, 0);
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(42, 2, 0.1, 100);
+  camera.position.set(0, 3.2, 5.5);
+  camera.lookAt(0, 0, 0);
+
+  function resize() {
+    const w = hero.clientWidth, h = hero.clientHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // LIGHTS
+  scene.add(new THREE.AmbientLight(0x0A1A2A, 4));
+  const dlight = new THREE.DirectionalLight(0x88AACC, 1.5);
+  dlight.position.set(4, 6, 4);
+  scene.add(dlight);
+  const clight = new THREE.PointLight(0x00CCFF, 3, 14);
+  clight.position.set(0, 4, 2);
+  scene.add(clight);
+  const plight = new THREE.PointLight(0x7B5EFC, 2, 10);
+  plight.position.set(-3, 2, -2);
+  scene.add(plight);
+
+  // MATERIALS
+  const mPCB    = new THREE.MeshStandardMaterial({ color: 0x0A3D1E, roughness: 0.5, metalness: 0.15 });
+  const mTrace  = new THREE.MeshStandardMaterial({ color: 0xC8900A, roughness: 0.15, metalness: 0.95, emissive: 0x331A00, emissiveIntensity: 0.4 });
+  const mVia    = new THREE.MeshStandardMaterial({ color: 0xDAA520, metalness: 1, roughness: 0.05 });
+  const mIC     = new THREE.MeshStandardMaterial({ color: 0x18181F, roughness: 0.35, metalness: 0.4 });
+  const mLeg    = new THREE.MeshStandardMaterial({ color: 0xBBBBBB, metalness: 0.9, roughness: 0.1 });
+  const mCap    = new THREE.MeshStandardMaterial({ color: 0x112244, roughness: 0.3 });
+  const mRes    = new THREE.MeshStandardMaterial({ color: 0x7A3B10, roughness: 0.5 });
+  const mConn   = new THREE.MeshStandardMaterial({ color: 0x1E1E2E, roughness: 0.4 });
+  const mCyan   = new THREE.MeshStandardMaterial({ color: 0x00CCFF, emissive: 0x00CCFF, emissiveIntensity: 1.6, roughness: 0.1 });
+  const mGreen  = new THREE.MeshStandardMaterial({ color: 0x00FF80, emissive: 0x00FF80, emissiveIntensity: 1.2, roughness: 0.1 });
+  const mRed    = new THREE.MeshStandardMaterial({ color: 0xFF2244, emissive: 0xFF2244, emissiveIntensity: 1.0, roughness: 0.1 });
+
+  // GROUP
+  const grp = new THREE.Group();
+  scene.add(grp);
+
+  // PCB BOARD
+  grp.add(Object.assign(new THREE.Mesh(new THREE.BoxGeometry(5.6, 0.1, 3.6), mPCB)));
+
+  // TRACES helper
+  function trace(x, z, w, d) {
+    const m = new THREE.Mesh(new THREE.BoxGeometry(w, 0.014, d), mTrace);
+    m.position.set(x, 0.057, z);
+    grp.add(m);
+  }
+  // Horizontal
+  trace(0, 0.9, 5.3, 0.055); trace(0, -0.9, 5.3, 0.055);
+  trace(0, 0,   3.2, 0.04);  trace(-1.5, 1.4, 2.2, 0.04);
+  trace(1.3, -1.2, 1.9, 0.04); trace(-0.7, 0.45, 1.1, 0.038);
+  trace(1.9, 0.45, 0.9, 0.038); trace(-2.1, -0.45, 1.2, 0.038);
+  trace(0.6, -0.45, 1.5, 0.038); trace(-1.0, -1.4, 1.6, 0.038);
+  // Vertical
+  trace(0.5,  0.45, 0.04, 1.7); trace(-0.5, 0,   0.04, 1.8);
+  trace(1.5,  0.2,  0.04, 1.2); trace(-1.5, 0.5, 0.04, 1.9);
+  trace(2.2,  0.1,  0.04, 0.8); trace(-2.4, 0,   0.04, 2.1);
+  trace(0.5, -0.5,  0.04, 0.9); trace(-1.0, -0.7,0.04, 1.4);
+
+  // VIAS
+  function via(x, z) {
+    const v = new THREE.Mesh(new THREE.CylinderGeometry(0.052,0.052,0.08,12), mVia);
+    v.position.set(x, 0.09, z); grp.add(v);
+  }
+  [[0.5,0.9],[0.5,-0.9],[-0.5,0.9],[-0.5,-0.9],[1.5,0.9],[-1.5,0.9],
+   [2.2,0.9],[-2.4,0.9],[0.5,-0.5],[-1.0,-1.4],[1.3,-0.9],[-1.0,0.9]].forEach(([x,z])=>via(x,z));
+
+  // IC helper
+  function addIC(x, z, w, d) {
+    const body = new THREE.Mesh(new THREE.BoxGeometry(w, 0.11, d), mIC);
+    body.position.set(x, 0.105, z); grp.add(body);
+    // Legs along X axis (on Z sides)
+    const nLegs = Math.max(2, Math.round(w / 0.22));
+    for (let i = 0; i < nLegs; i++) {
+      const lx = x - w/2 + (i + 0.5) * (w / nLegs);
+      [-1,1].forEach(s => {
+        const leg = new THREE.Mesh(new THREE.BoxGeometry(0.045, 0.055, 0.09), mLeg);
+        leg.position.set(lx, 0.07, z + s*(d/2+0.045));
+        grp.add(leg);
+      });
+    }
+    // Notch
+    const notch = new THREE.Mesh(new THREE.CylinderGeometry(0.045,0.045,0.12,10), mIC);
+    notch.position.set(x - w/2 + 0.13, 0.115, z - d/2 + 0.13);
+    grp.add(notch);
+  }
+  addIC(0,    0,    0.88, 0.65);
+  addIC(-1.5,-0.5,  0.58, 0.48);
+  addIC(1.85, 0.85, 0.5,  0.4);
+  addIC(-2.2, 1.05, 0.42, 0.34);
+
+  // CAPACITOR helper
+  function addCap(x, z, col) {
+    const mat = col ? new THREE.MeshStandardMaterial({color:col,roughness:0.3}) : mCap;
+    const body = new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.1,0.3,16), mat);
+    body.position.set(x, 0.2, z); grp.add(body);
+    const top = new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.1,0.01,16),
+      new THREE.MeshStandardMaterial({color:0x999999,metalness:0.8,roughness:0.1}));
+    top.position.set(x, 0.355, z); grp.add(top);
+    const stripe = new THREE.Mesh(new THREE.CylinderGeometry(0.102,0.102,0.06,16,1,true),
+      new THREE.MeshStandardMaterial({color:0xCCCCCC,side:THREE.BackSide,transparent:true,opacity:0.6}));
+    stripe.position.set(x, 0.305, z); grp.add(stripe);
+  }
+  addCap( 1.05,-1.0,  0x112244); addCap(1.35,-1.0,  0x112244);
+  addCap(-0.85, 1.25, 0x2A1A44); addCap(-1.15,1.25, 0x1A3A22);
+  addCap( 2.45,-0.8,  0x112244); addCap(-2.5, -1.0, 0x2A1A08);
+
+  // RESISTOR helper
+  function addRes(x, z) {
+    const body = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.09, 0.09), mRes);
+    body.position.set(x, 0.095, z); grp.add(body);
+    const ends = new THREE.MeshStandardMaterial({color:0x888888,metalness:0.9,roughness:0.1});
+    [-0.2, 0.2].forEach(ox => {
+      const e = new THREE.Mesh(new THREE.BoxGeometry(0.04,0.09,0.09), ends);
+      e.position.set(x+ox, 0.095, z); grp.add(e);
+    });
+  }
+  [[ 0.5,1.25],[0.82,1.25],[1.14,1.25],
+   [-0.5,-1.15],[-0.82,-1.15],
+   [ 2.05,-0.4],[-2.05,0.35]].forEach(([x,z])=>addRes(x,z));
+
+  // LEDs
+  function addLED(x, z, mat) {
+    const body = new THREE.Mesh(new THREE.SphereGeometry(0.07,12,12), mat);
+    body.position.set(x, 0.18, z); grp.add(body);
+    const base = new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.07,0.08,12),
+      new THREE.MeshStandardMaterial({color:0x202020}));
+    base.position.set(x, 0.09, z); grp.add(base);
+  }
+  addLED(-0.3,-1.35,mCyan); addLED(0,-1.35,mGreen); addLED(0.3,-1.35,mRed);
+
+  // CONNECTORS
+  function addConn(x, z, w, d, pins, dir) {
+    const body = new THREE.Mesh(new THREE.BoxGeometry(w,0.22,d), mConn);
+    body.position.set(x, 0.16, z); grp.add(body);
+    for(let i=0;i<pins;i++){
+      const pin = new THREE.Mesh(new THREE.CylinderGeometry(0.025,0.025,0.28,8),mLeg);
+      const off = -d/2 + (i+0.5)*(d/pins);
+      pin.position.set(x+(dir||0), 0.29, z+off); grp.add(pin);
+    }
+  }
+  addConn( 2.65, 0,   0.38, 1.2, 6, 0);
+  addConn(-2.65, 0.3, 0.38, 0.8, 4, 0);
+
+  // INDUCTOR (toroid)
+  const torus = new THREE.Mesh(new THREE.TorusGeometry(0.2,0.065,8,22),
+    new THREE.MeshStandardMaterial({color:0x4A2800,roughness:0.6}));
+  torus.position.set(-2.05,-0.95,0); torus.rotation.x = Math.PI/2; grp.add(torus);
+
+  // CRYSTAL
+  const xtal = new THREE.Mesh(new THREE.BoxGeometry(0.12,0.08,0.38),
+    new THREE.MeshStandardMaterial({color:0xAAAAAA,metalness:0.95,roughness:0.05}));
+  xtal.position.set(0.52, 0.09,-0.52); grp.add(xtal);
+
+  // TRANSFORMER (small E-core approximation)
+  const txCore = new THREE.MeshStandardMaterial({color:0x2A2A3A,roughness:0.4,metalness:0.5});
+  [[0,-0.12],[0,0],[0,0.12]].forEach(([ox,oz])=>{
+    const bar = new THREE.Mesh(new THREE.BoxGeometry(0.5,0.12,0.06),txCore);
+    bar.position.set(2.1,0.16,oz-0.9); grp.add(bar);
+  });
+  const coil = new THREE.MeshStandardMaterial({color:0xCC7700,metalness:0.8,roughness:0.1});
+  const coilMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.06,0.06,0.24,12),coil);
+  coilMesh.rotation.z = Math.PI/2;
+  coilMesh.position.set(2.1,0.16,-0.9); grp.add(coilMesh);
+
+  // Initial tilt
+  grp.rotation.x = 0.28;
+
+  // ── INTERACTION ──────────────────────────────────────────────────────────────
+  let auto = true, drag = false, lx = 0, ly = 0;
+
+  canvas.addEventListener('mousedown', e=>{ drag=true; auto=false; lx=e.clientX; ly=e.clientY; });
+  window.addEventListener('mouseup',   ()=>{ drag=false; });
+  window.addEventListener('mousemove', e=>{
+    if(!drag) return;
+    grp.rotation.y += (e.clientX-lx)*0.011;
+    grp.rotation.x  = Math.max(-0.7, Math.min(0.7, grp.rotation.x+(e.clientY-ly)*0.006));
+    lx=e.clientX; ly=e.clientY;
+  });
+  canvas.addEventListener('wheel', e=>{
+    camera.position.z = Math.max(3, Math.min(9, camera.position.z+e.deltaY*0.01));
+  },{passive:true});
+  let ltx=0,lty=0;
+  canvas.addEventListener('touchstart',  e=>{ drag=true; auto=false; ltx=e.touches[0].clientX; lty=e.touches[0].clientY; },{passive:true});
+  canvas.addEventListener('touchend',    ()=>{ drag=false; },{passive:true});
+  canvas.addEventListener('touchmove',   e=>{
+    if(!drag) return;
+    grp.rotation.y += (e.touches[0].clientX-ltx)*0.013;
+    grp.rotation.x  = Math.max(-0.7, Math.min(0.7, grp.rotation.x+(e.touches[0].clientY-lty)*0.007));
+    ltx=e.touches[0].clientX; lty=e.touches[0].clientY;
+  },{passive:true});
+
+  // ── ANIMATE ──────────────────────────────────────────────────────────────────
+  let f = 0;
+  (function loop(){
+    requestAnimationFrame(loop);
+    f++;
+    const t = f * 0.018;
+    if(auto) grp.rotation.y += 0.0025;
+    mCyan.emissiveIntensity  = 1.2 + Math.sin(t)     * 0.6;
+    mGreen.emissiveIntensity = 1.0 + Math.sin(t+1.2) * 0.4;
+    mRed.emissiveIntensity   = 0.8 + Math.sin(t+2.4) * 0.3;
+    mTrace.emissiveIntensity = 0.25+ Math.sin(t*0.4) * 0.1;
+    clight.intensity         = 2.8 + Math.sin(t*0.6) * 0.5;
+    renderer.render(scene, camera);
+  })();
+}
+
+// ── BOOT ─────────────────────────────────────────────────────────────────────
+load();
+buildUI();
+initBoard();
+
+document.getElementById('reset-btn').addEventListener('click', ()=>{
+  if(confirm('Reset all progress?')){ checked={}; save(); buildUI(); updateProgress(); }
+});
+document.getElementById('fdate').textContent =
+  new Date().toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'numeric'});
+</script>
+</body>
+</html>
